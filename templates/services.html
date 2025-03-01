@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adarsh S | Services</title>
+    {% load static %}
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:wght@700;800&display=swap');
+        
+        :root {
+            --primary: #8A2BE2;
+            --secondary: #FF3CAC;
+            --tertiary: #00DBDE;
+            --dark: #0A0A0A;
+            --darker: #050505;
+            --light: #ffffff;
+            --muted: #cccccc;
+            --glass: rgba(255, 255, 255, 0.08);
+            --glass-stroke: rgba(255, 255, 255, 0.1);
+            --transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            --shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+        }
+        
+        * {
+            margin: 0;     
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background: linear-gradient(135deg, var(--dark), var(--darker));
+            font-family: 'Montserrat', sans-serif;
+            color: var(--light);
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+        
+        /* Particle background effect */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+            overflow: hidden;
+        }
+        
+        .particle {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: white;
+            border-radius: 50%;
+            opacity: 0.5;
+            animation: float 60s infinite linear;
+        }
+        
+        @keyframes float {
+            0% { transform: translateY(0vh) translateX(0vw); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(-100vh) translateX(30vw); opacity: 0; }
+        }
+        
+        /* Generate 20 random particles */
+        .particle:nth-child(1) { left: 10%; top: 100%; animation-delay: 0s; animation-duration: 30s; }
+        .particle:nth-child(2) { left: 20%; top: 100%; animation-delay: 2s; animation-duration: 40s; }
+        .particle:nth-child(3) { left: 30%; top: 100%; animation-delay: 4s; animation-duration: 35s; }
+        .particle:nth-child(4) { left: 40%; top: 100%; animation-delay: 6s; animation-duration: 45s; }
+        .particle:nth-child(5) { left: 50%; top: 100%; animation-delay: 8s; animation-duration: 38s; }
+        .particle:nth-child(6) { left: 60%; top: 100%; animation-delay: 10s; animation-duration: 42s; }
+        .particle:nth-child(7) { left: 70%; top: 100%; animation-delay: 12s; animation-duration: 36s; }
+        .particle:nth-child(8) { left: 80%; top: 100%; animation-delay: 14s; animation-duration: 39s; }
+        .particle:nth-child(9) { left: 90%; top: 100%; animation-delay: 16s; animation-duration: 41s; }
+        .particle:nth-child(10) { left: 5%; top: 100%; animation-delay: 18s; animation-duration: 37s; }
+        .particle:nth-child(11) { left: 15%; top: 100%; animation-delay: 20s; animation-duration: 33s; }
+        .particle:nth-child(12) { left: 25%; top: 100%; animation-delay: 22s; animation-duration: 34s; }
+        .particle:nth-child(13) { left: 35%; top: 100%; animation-delay: 24s; animation-duration: 47s; }
+        .particle:nth-child(14) { left: 45%; top: 100%; animation-delay: 26s; animation-duration: 43s; }
+        .particle:nth-child(15) { left: 55%; top: 100%; animation-delay: 28s; animation-duration: 44s; }
+        .particle:nth-child(16) { left: 65%; top: 100%; animation-delay: 0s; animation-duration: 46s; }
+        .particle:nth-child(17) { left: 75%; top: 100%; animation-delay: 2s; animation-duration: 48s; }
+        .particle:nth-child(18) { left: 85%; top: 100%; animation-delay: 4s; animation-duration: 32s; }
+        .particle:nth-child(19) { left: 95%; top: 100%; animation-delay: 6s; animation-duration: 31s; }
+        .particle:nth-child(20) { left: 7%; top: 100%; animation-delay: 8s; animation-duration: 49s; }
+        
+        /* 3D Gradient background */
+        .gradient-bg {
+            position: fixed;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            z-index: -1;
+            animation: rotate 25s linear infinite;
+            opacity: 0.15;
+            background: 
+                radial-gradient(circle at 20% 20%, var(--secondary), transparent 40%),
+                radial-gradient(circle at 80% 30%, var(--primary), transparent 50%),
+                radial-gradient(circle at 40% 80%, var(--tertiary), transparent 40%);
+            mix-blend-mode: screen;
+        }
+        
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* Noise texture overlay */
+        .noise {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZmlsdGVyIGlkPSJhIiB4PSIwIiB5PSIwIj48ZmVUdXJidWxlbmNlIGJhc2VGcmVxdWVuY3k9Ii43NSIgc3RpdGNoVGlsZXM9InN0aXRjaCIgdHlwZT0iZnJhY3RhbE5vaXNlIi8+PC9maWx0ZXI+PHJlY3Qgd2lkdGg9IjMwMCIgaGVpZ2h0PSIzMDAiIGZpbHRlcj0idXJsKCNhKSIgb3BhY2l0eT0iLjA1Ii8+PC9zdmc+');
+            pointer-events: none;
+            z-index: 1;
+            opacity: 0.4;
+        }
+        
+        /* Main layout */
+        .container {
+            display: flex;
+            position: relative;
+            z-index: 2;
+            min-height: 100vh;
+        }
+        
+        /* Sidebar */
+        .sidebar {
+            width: 100px;
+            height: 100vh;
+            background: var(--glass);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-right: 1px solid var(--glass-stroke);
+            position: fixed;
+            z-index: 100;
+            transition: var(--transition);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 40px 0;
+        }
+        
+        .sidebar:hover {
+            width: 280px;
+        }
+        
+        .logo {
+            margin-bottom: 50px;
+            position: relative;
+            transition: var(--transition);
+        }
+        
+        .logo-circle {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Playfair Display', serif;
+            font-size: 24px;
+            font-weight: 800;
+            position: relative;
+            z-index: 1;
+            box-shadow: 0 5px 20px rgba(138, 43, 226, 0.4);
+            transition: var(--transition);
+        }
+        
+        .logo-circle::before {
+            content: '';
+            position: absolute;
+            inset: 2px;
+            border-radius: inherit;
+            background: var(--dark);
+            z-index: -1;
+        }
+        
+        .logo-text {
+            position: absolute;
+            left: 70px;
+            top: 50%;
+            transform: translateY(-50%);
+            white-space: nowrap;
+            font-size: 20px;
+            font-weight: 700;
+            opacity: 0;
+            transition: var(--transition);
+            background: linear-gradient(to right, var(--secondary), var(--primary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .sidebar:hover .logo-text {
+            opacity: 1;
+            transform: translateY(-50%) translateX(5px);
+        }
+        
+        nav {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        nav ul {
+            list-style: none;
+            width: 100%;
+            padding: 0 20px;
+        }
+        
+        nav ul li {
+            margin: 15px 0;
+            position: relative;
+            width: 100%;
+        }
+        
+        nav ul li a {
+            text-decoration: none;
+            color: var(--light);
+            display: flex;
+            align-items: center;
+            padding: 12px;
+            border-radius: 12px;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        nav ul li a::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 0;
+            background: linear-gradient(90deg, var(--primary), transparent);
+            transition: var(--transition);
+            opacity: 0;
+            z-index: -1;
+        }
+        
+        nav ul li a:hover::before, 
+        nav ul li.active a::before {
+            width: 100%;
+            opacity: 0.3;
+        }
+        
+        nav ul li.active a {
+            background: linear-gradient(90deg, rgba(138, 43, 226, 0.2), transparent);
+            border-left: 3px solid var(--primary);
+        }
+        
+        nav ul li a .icon {
+            font-size: 22px;
+            min-width: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+        }
+        
+        nav ul li a .text {
+            white-space: nowrap;
+            opacity: 0;
+            transition: var(--transition);
+            transform: translateX(-10px);
+            font-weight: 500;
+        }
+        
+        .sidebar:hover nav ul li a .text {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        
+        /* Main content */
+        .main-content {
+            margin-left: 100px;
+            flex: 1;
+            min-height: 100vh;
+            padding: 40px;
+            position: relative;
+        }
+        
+        /* Page title */
+        .page-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 36px;
+            font-weight: 800;
+            margin-bottom: 30px;
+            position: relative;
+        }
+        
+        .gradient-text {
+            background: linear-gradient(to right, var(--light), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        /* Services grid */
+        .service-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(550px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+        
+        .service-box {
+            background: var(--glass);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            cursor: pointer;
+            position: relative;
+            transition: var(--transition);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            height: 180px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .service-box::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 20px;
+            padding: 1px;
+            background: linear-gradient(135deg, var(--secondary), transparent 50%, var(--primary));
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            pointer-events: none;
+        }
+        
+        .service-box.active {
+            height: auto;
+            min-height: 300px;
+        }
+        
+        .service-box .icon {
+            font-size: 60px;
+            color: var(--secondary);
+            margin-bottom: 15px;
+            transition: var(--transition);
+        }
+        
+        .service-box h3 {
+            font-size: 18px;
+            font-weight: 600;
+            text-align: center;
+            margin-bottom: 15px;
+            transition: var(--transition);
+        }
+        
+        .service-box p {
+            font-size: 14px;
+            line-height: 1.6;
+            color: var(--muted);
+            text-align: center;
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+            transition: var(--transition);
+        }
+        
+        .service-box.active p {
+            max-height: 200px;
+            opacity: 1;
+            margin-top: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .service-box .message-box {
+            padding: 10px 25px;
+            border-radius: 30px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            font-weight: 500;
+            font-size: 14px;
+            cursor: pointer;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .service-box.active .message-box {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .service-box .message-box::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: var(--transition);
+        }
+        
+        .service-box .message-box:hover::before {
+            left: 100%;
+            transition: 0.5s;
+        }
+        
+        .service-box:hover {
+            transform: translateY(-5px);
+        }
+        
+        /* Theme switcher */
+        .theme-switcher {
+            position: absolute;
+            top: 40px;
+            right: 40px;
+            display: flex;
+            gap: 10px;
+            background: var(--glass);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 30px;
+            padding: 5px;
+            border: 1px solid var(--glass-stroke);
+        }
+        
+        .theme-button {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .theme-button:hover {
+            transform: scale(1.1);
+        }
+        
+        .theme-button.active {
+            border-color: white;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+        }
+        
+        /* Success message */
+        #success-message {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--glass);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 10px;
+            padding: 15px 30px;
+            text-align: center;
+            opacity: 0;
+            transition: var(--transition);
+            border: 1px solid var(--glass-stroke);
+            z-index: 1000;
+        }
+        
+        #success-message.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+        
+        /* Custom cursor effect */
+        .cursor-effect {
+            position: fixed;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 2px solid var(--primary);
+            pointer-events: none;
+            transform: translate(-50%, -50%);
+            z-index: 9999;
+            transition: transform 0.1s, width 0.3s, height 0.3s;
+            opacity: 0.6;
+            mix-blend-mode: difference;
+        }
+        
+        /* Responsive styles */
+        @media (max-width: 1200px) {
+            .service-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (max-width: 992px) {
+            .page-title {
+                font-size: 32px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 80px;
+            }
+            
+            .sidebar:hover {
+                width: 240px;
+            }
+            
+            .main-content {
+                margin-left: 80px;
+                padding: 30px;
+            }
+            
+            .logo-circle {
+                width: 50px;
+                height: 50px;
+                font-size: 20px;
+            }
+            
+            .theme-switcher {
+                top: 30px;
+                right: 30px;
+            }
+            
+            .service-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .page-title {
+                font-size: 28px;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .sidebar {
+                width: 70px;
+            }
+            
+            .sidebar:hover {
+                width: 200px;
+            }
+            
+            .main-content {
+                margin-left: 70px;
+                padding: 20px;
+            }
+            
+            .logo-circle {
+                width: 45px;
+                height: 45px;
+                font-size: 18px;
+            }
+            
+            .theme-switcher {
+                top: 20px;
+                right: 20px;
+            }
+            
+            .page-title {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Particle background -->
+    <div class="particles">
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+    </div>
+    
+    <!-- Animated gradient background -->
+    <div class="gradient-bg"></div>
+    
+    <!-- Noise texture overlay -->
+    <div class="noise"></div>
+    
+    <!-- Custom cursor effect -->
+    <div class="cursor-effect"></div>
+    
+    <div class="container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="logo">
+                <div class="logo-circle">AS</div>
+                <div class="logo-text"></div>
+            </div>
+            
+            <nav>
+                <ul>
+                    <li>
+                        <a href="{% url 'index' %}">
+                            <span class="icon">🏠</span>
+                            <span class="text">Home</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{% url 'about' %}">
+                            <span class="icon">👤</span>
+                            <span class="text">About</span>
+                        </a>
+                    </li>
+                    <li class="active">
+                        <a href="{% url 'services' %}">
+                            <span class="icon">📋</span>
+                            <span class="text">Services</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{% url 'portfolio' %}">
+                            <span class="icon">📁</span>
+                            <span class="text">Projects</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{% url 'contact' %}">
+                            <span class="icon">💬</span>
+                            <span class="text">Contact</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+        
+        <!-- Main content -->
+        <main class="main-content">
+            <h1 class="page-title">My <span class="gradient-text">Services</span></h1>
+            
+            <div class="theme-switcher">
+                <div class="theme-button" style="background: var(--primary);" onclick="setThemeColor('#8A2BE2', '#FF3CAC', '#00DBDE')"></div>
+                <div class="theme-button" style="background: red;" onclick="setThemeColor('#FF0000', '#FF4500', '#FFA500')"></div>
+                <div class="theme-button" style="background: green;" onclick="setThemeColor('#00A86B', '#00CED1', '#008080')"></div>
+                <div class="theme-button" style="background: blue;" onclick="setThemeColor('#0000FF', '#4169E1', '#1E90FF')"></div>
+            </div>
+            
+            <div class="service-container">
+                <div class="service-box" onclick="toggleDescription(this)">
+                    <div class="icon">💻</div>
+                    <h3>Web Design</h3>
+                    <p>Creating responsive, visually appealing, and user-friendly websites using HTML, CSS, JavaScript, and modern frameworks. Specializing in UI/UX design, landing pages, portfolio sites, and e-commerce layouts.</p>
+                    <div class="message-box" onclick="redirectToContact(event)">Contact Me</div>
+                </div>
+                <div class="service-box" onclick="toggleDescription(this)">
+                    <div class="icon">🎨</div>
+                    <h3>Graphic Design</h3>
+                    <p>Designing eye-catching logos, banners, social media graphics, and marketing materials. Skilled in Adobe Photoshop, Illustrator, and Canva to create visually appealing and brand-focused designs.</p>
+                    <div class="message-box" onclick="redirectToContact(event)">Contact Me</div>
+                </div>
+                <div class="service-box" onclick="toggleDescription(this)">
+                    <div class="icon">📱</div>
+                    <h3>App Development</h3>
+                    <p>Building responsive and high-performance mobile applications using Flutter, React Native, or native Android (Kotlin) and iOS (Swift). Specializing in UI/UX, API integration, and scalable app solutions.</p>
+                    <div class="message-box" onclick="redirectToContact(event)">Contact Me</div>
+                </div>
+                <div class="service-box" onclick="toggleDescription(this)">
+                    <div class="icon">🗄️</div>
+                    <h3>Database Design & Management</h3>
+                    <p>Designing efficient, scalable databases using SQL (MySQL, PostgreSQL) and NoSQL (MongoDB, Firebase). Expertise in data modeling, optimization, security, and backup solutions.</p>
+                    <div class="message-box" onclick="redirectToContact(event)">Contact Me</div>
+                </div>
+                <div class="service-box" onclick="toggleDescription(this)">
+                    <div class="icon">⚙️</div>
+                    <h3>Full-Stack Development</h3>
+                    <p>Developing end-to-end web applications with modern frontend (React, Angular) and backend (Django, Node.js) technologies. Expertise in database management, API development, and cloud deployment.</p>
+                    <div class="message-box" onclick="redirectToContact(event)">Contact Me</div>
+                </div>
+                <div class="service-box" onclick="toggleDescription(this)">
+                    <div class="icon">🔌</div>
+                    <h3>IoT Development</h3>
+                    <p>Building smart, connected systems using Raspberry Pi, Arduino, and IoT platforms. Expertise in sensor integration, real-time data processing, automation, and cloud connectivity for innovative IoT solutions.</p>
+                    <div class="message-box" onclick="redirectToContact(event)">Contact Me</div>
+                </div>
+            </div>
+            
+            <div id="success-message">Message sent successfully!</div>
+        </main>
+    </div>
+    
+    <script>
+        // Theme switcher
+        function setThemeColor(primary, secondary, tertiary) {
+            document.documentElement.style.setProperty('--primary', primary);
+            document.documentElement.style.setProperty('--secondary', secondary);
+            document.documentElement.style.setProperty('--tertiary', tertiary);
+            
+            // Update theme buttons active state
+            const themeButtons = document.querySelectorAll('.theme-button');
+            themeButtons.forEach(button => {
+                button.classList.remove('active');
+            });
+            event.currentTarget.classList.add('active');
+        }
+        
+        // Toggle service description
+        function toggleDescription(element) {
+            const isActive = element.classList.contains('active');
+            
+            // Close all open service boxes
+            document.querySelectorAll('.service-box').forEach(box => {
+                box.classList.remove('active');
+            });
+            
+            // If the clicked box wasn't active, make it active
+            if (!isActive) {
+                element.classList.add('active');
+            }
+        }
+        
+        // Redirect to contact page
+        function redirectToContact(event) {
+            event.stopPropagation();
+            window.location.href = "{% url 'contact' %}";
+        }
+        
+        // Show success message
+        function showSuccessMessage() {
+            const successMessage = document.getElementById('success-message');
+            successMessage.classList.add('show');
+            
+            setTimeout(() => {
+                successMessage.classList.remove('show');
+            }, 3000);
+        }
+        
+        // Custom cursor effect
+        document.addEventListener('DOMContentLoaded', function() {
+            const cursor = document.querySelector('.cursor-effect');
+            
+            document.addEventListener('mousemove', function(e) {
+                cursor.style.left = e.clientX + 'px';
+                cursor.style.top = e.clientY + 'px';
+            });
+            
+            document.addEventListener('mousedown', function() {
+                cursor.style.transform = 'translate(-50%, -50%) scale(0.8)';
+            });
+            
+            document.addEventListener('mouseup', function() {
+                cursor.style.transform = 'translate(-50%, -50%) scale(1)';
+            });
+            
+            document.querySelectorAll('a, button, .service-box, .theme-button').forEach(item => {
+                item.addEventListener('mouseenter', function() {
+                    cursor.style.width = '60px';
+                    cursor.style.height = '60px';
+                    cursor.style.border = '2px solid var(--secondary)';
+                });
+                
+                item.addEventListener('mouseleave', function() {
+                    cursor.style.width = '40px';
+                    cursor.style.height = '40px';
+                    cursor.style.border = '2px solid var(--primary)';
+                });
+            });
+        });
+    </script>
+</body>
+</html>

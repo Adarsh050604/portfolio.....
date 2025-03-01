@@ -1,0 +1,905 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adarsh S | Creative Portfolio</title>
+    {% load static %}
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:wght@700;800&display=swap');
+        
+        :root {
+            --primary: #8A2BE2;
+            --secondary: #FF3CAC;
+            --tertiary: #00DBDE;
+            --dark: #0A0A0A;
+            --darker: #050505;
+            --light: #ffffff;
+            --muted: #cccccc;
+            --glass: rgba(255, 255, 255, 0.08);
+            --glass-stroke: rgba(255, 255, 255, 0.1);
+            --transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            --shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+        }
+        
+        * {
+            margin: 0;     
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background: linear-gradient(135deg, var(--dark), var(--darker));
+            font-family: 'Montserrat', sans-serif;
+            color: var(--light);
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+        
+        /* Particle background effect */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+            overflow: hidden;
+        }
+        
+        .particle {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: white;
+            border-radius: 50%;
+            opacity: 0.5;
+            animation: float 60s infinite linear;
+        }
+        
+        @keyframes float {
+            0% { transform: translateY(0vh) translateX(0vw); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(-100vh) translateX(30vw); opacity: 0; }
+        }
+        
+        /* Generate 50 random particles */
+        .particle:nth-child(1) { left: 10%; top: 100%; animation-delay: 0s; animation-duration: 30s; }
+        .particle:nth-child(2) { left: 20%; top: 100%; animation-delay: 2s; animation-duration: 40s; }
+        .particle:nth-child(3) { left: 30%; top: 100%; animation-delay: 4s; animation-duration: 35s; }
+        .particle:nth-child(4) { left: 40%; top: 100%; animation-delay: 6s; animation-duration: 45s; }
+        .particle:nth-child(5) { left: 50%; top: 100%; animation-delay: 8s; animation-duration: 38s; }
+        .particle:nth-child(6) { left: 60%; top: 100%; animation-delay: 10s; animation-duration: 42s; }
+        .particle:nth-child(7) { left: 70%; top: 100%; animation-delay: 12s; animation-duration: 36s; }
+        .particle:nth-child(8) { left: 80%; top: 100%; animation-delay: 14s; animation-duration: 39s; }
+        .particle:nth-child(9) { left: 90%; top: 100%; animation-delay: 16s; animation-duration: 41s; }
+        .particle:nth-child(10) { left: 5%; top: 100%; animation-delay: 18s; animation-duration: 37s; }
+        .particle:nth-child(11) { left: 15%; top: 100%; animation-delay: 20s; animation-duration: 33s; }
+        .particle:nth-child(12) { left: 25%; top: 100%; animation-delay: 22s; animation-duration: 34s; }
+        .particle:nth-child(13) { left: 35%; top: 100%; animation-delay: 24s; animation-duration: 47s; }
+        .particle:nth-child(14) { left: 45%; top: 100%; animation-delay: 26s; animation-duration: 43s; }
+        .particle:nth-child(15) { left: 55%; top: 100%; animation-delay: 28s; animation-duration: 44s; }
+        .particle:nth-child(16) { left: 65%; top: 100%; animation-delay: 0s; animation-duration: 46s; }
+        .particle:nth-child(17) { left: 75%; top: 100%; animation-delay: 2s; animation-duration: 48s; }
+        .particle:nth-child(18) { left: 85%; top: 100%; animation-delay: 4s; animation-duration: 32s; }
+        .particle:nth-child(19) { left: 95%; top: 100%; animation-delay: 6s; animation-duration: 31s; }
+        .particle:nth-child(20) { left: 7%; top: 100%; animation-delay: 8s; animation-duration: 49s; }
+        
+        /* 3D Gradient background */
+        .gradient-bg {
+            position: fixed;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            z-index: -1;
+            animation: rotate 25s linear infinite;
+            opacity: 0.15;
+            background: 
+                radial-gradient(circle at 20% 20%, var(--secondary), transparent 40%),
+                radial-gradient(circle at 80% 30%, var(--primary), transparent 50%),
+                radial-gradient(circle at 40% 80%, var(--tertiary), transparent 40%);
+            mix-blend-mode: screen;
+        }
+        
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* Noise texture overlay */
+        .noise {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZmlsdGVyIGlkPSJhIiB4PSIwIiB5PSIwIj48ZmVUdXJidWxlbmNlIGJhc2VGcmVxdWVuY3k9Ii43NSIgc3RpdGNoVGlsZXM9InN0aXRjaCIgdHlwZT0iZnJhY3RhbE5vaXNlIi8+PC9maWx0ZXI+PHJlY3Qgd2lkdGg9IjMwMCIgaGVpZ2h0PSIzMDAiIGZpbHRlcj0idXJsKCNhKSIgb3BhY2l0eT0iLjA1Ii8+PC9zdmc+');
+            pointer-events: none;
+            z-index: 1;
+            opacity: 0.4;
+        }
+        
+        /* Main layout */
+        .container {
+            display: flex;
+            position: relative;
+            z-index: 2;
+            min-height: 100vh;
+        }
+        
+        /* Sidebar */
+        .sidebar {
+            width: 100px;
+            height: 100vh;
+            background: var(--glass);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-right: 1px solid var(--glass-stroke);
+            position: fixed;
+            z-index: 100;
+            transition: var(--transition);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 40px 0;
+        }
+        
+        .sidebar:hover {
+            width: 280px;
+        }
+        
+        .logo {
+            margin-bottom: 50px;
+            position: relative;
+            transition: var(--transition);
+        }
+        
+        .logo-circle {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Playfair Display', serif;
+            font-size: 24px;
+            font-weight: 800;
+            position: relative;
+            z-index: 1;
+            box-shadow: 0 5px 20px rgba(138, 43, 226, 0.4);
+            transition: var(--transition);
+        }
+        
+        .logo-circle::before {
+            content: '';
+            position: absolute;
+            inset: 2px;
+            border-radius: inherit;
+            background: var(--dark);
+            z-index: -1;
+        }
+        
+        .logo-text {
+            position: absolute;
+            left: 55px;
+            top: 50%;
+            transform: translateY(-50%);
+            white-space: nowrap;
+            font-size: 20px;
+            font-weight: 700;
+            opacity: 0;
+            transition: var(--transition);
+            background: linear-gradient(to right, var(--secondary), var(--primary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .sidebar:hover .logo-text {
+            opacity: 1;
+            transform: translateY(-50%) translateX(5px);
+        }
+        
+        nav {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        nav ul {
+            list-style: none;
+            width: 100%;
+            padding: 0 20px;
+        }
+        
+        nav ul li {
+            margin: 15px 0;
+            position: relative;
+            width: 100%;
+        }
+        
+        nav ul li a {
+            text-decoration: none;
+            color: var(--light);
+            display: flex;
+            align-items: center;
+            padding: 12px;
+            border-radius: 12px;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        nav ul li a::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 0;
+            background: linear-gradient(90deg, var(--primary), transparent);
+            transition: var(--transition);
+            opacity: 0;
+            z-index: -1;
+        }
+        
+        nav ul li a:hover::before, 
+        nav ul li.active a::before {
+            width: 100%;
+            opacity: 0.3;
+        }
+        
+        nav ul li.active a {
+            background: linear-gradient(90deg, rgba(138, 43, 226, 0.2), transparent);
+            border-left: 3px solid var(--primary);
+        }
+        
+        nav ul li a .icon {
+            font-size: 22px;
+            min-width: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+        }
+        
+        nav ul li a .text {
+            white-space: nowrap;
+            opacity: 0;
+            transition: var(--transition);
+            transform: translateX(-10px);
+            font-weight: 500;
+        }
+        
+        .sidebar:hover nav ul li a .text {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        
+        /* Main content */
+        .main-content {
+            margin-left: 100px;
+            flex: 1;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px;
+            position: relative;
+        }
+        
+        /* Profile card */
+        .profile-card {
+            position: relative;
+            max-width: 800px;
+            width: 100%;
+            background: var(--glass);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+        }
+        
+        .profile-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, var(--primary), transparent, var(--secondary));
+            opacity: 0.1;
+            z-index: -1;
+        }
+        
+        .profile-card::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 24px;
+            padding: 1px;
+            background: linear-gradient(135deg, var(--secondary), transparent 50%, var(--primary));
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            pointer-events: none;
+        }
+        
+        .card-inner {
+            display: flex;
+            padding: 0;
+        }
+        
+        .card-left {
+            flex: 1;
+            padding: 50px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .card-right {
+            width: 40%;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .card-right::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, var(--primary), var(--secondary), var(--tertiary));
+            animation: rotate 20s linear infinite;
+            opacity: 0.9;
+            z-index: -1;
+        }
+        
+        .profile-image-container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+        
+        .profile-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            opacity: 0.9;
+            mix-blend-mode: luminosity;
+            filter: contrast(1.1);
+            transform: scale(1.02);
+            transition: var(--transition);
+        }
+        
+        .profile-card:hover .profile-image {
+            transform: scale(1.05);
+            filter: contrast(1.2) brightness(1.1);
+            mix-blend-mode: normal;
+        }
+        
+        .image-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to right, rgba(0,0,0,0.7), transparent);
+            z-index: 1;
+        }
+        
+        /* Content styling */
+        .profile-content h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 40px;
+            font-weight: 800;
+            margin-bottom: 20px;
+            position: relative;
+        }
+        
+        .gradient-text {
+            background: linear-gradient(to right, var(--light), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .typing-wrapper {
+            height: 50px;
+            display: flex;
+            align-items: center;
+            margin: 20px 0 30px;
+        }
+        
+        .typing-effect {
+            position: relative;
+            font-size: 20px;
+            font-weight: 500;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+        }
+        
+        .typing-text {
+            position: relative;
+            color: var(--primary);
+            font-weight: 600;
+            padding-right: 10px;
+        }
+        
+        .typing-text::after {
+            content: '';
+            position: absolute;
+            right: 0;
+            top: 10%;
+            height: 80%;
+            width: 3px;
+            background: var(--primary);
+            animation: blink 0.8s infinite;
+        }
+        
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+        
+        .profile-content p {
+            font-size: 16px;
+            line-height: 1.8;
+            color: var(--muted);
+            margin-bottom: 40px;
+            max-width: 500px;
+        }
+        
+        /* Social media */
+        .social-icons {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 40px;
+        }
+        
+        .social-icon {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: var(--glass);
+            border: 1px solid var(--glass-stroke);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            transition: var(--transition);
+            cursor: pointer;
+        }
+        
+        .social-icon::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            opacity: 0;
+            transition: var(--transition);
+            z-index: 0;
+        }
+        
+        .social-icon:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 20px rgba(138, 43, 226, 0.3);
+        }
+        
+        .social-icon:hover::before {
+            opacity: 1;
+        }
+        
+        .social-icon span {
+            font-size: 20px;
+            position: relative;
+            z-index: 1;
+            transition: var(--transition);
+        }
+        
+        /* Button */
+        .cta-button {
+            padding: 0;
+            position: relative;
+            background: transparent;
+            border: none;
+            outline: none;
+            cursor: pointer;
+            width: 200px;
+            height: 56px;
+        }
+        
+        .button-wrapper {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            border-radius: 28px;
+            padding: 2px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            box-shadow: 0 10px 30px rgba(138, 43, 226, 0.3);
+        }
+        
+        .button-inner {
+            position: relative;
+            height: 100%;
+            width: 100%;
+            border-radius: 26px;
+            background: linear-gradient(135deg, rgba(138, 43, 226, 0.2), rgba(255, 60, 172, 0.1));
+            backdrop-filter: blur(5px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+            overflow: hidden;
+        }
+        
+        .button-inner::before {
+            content: '';
+            position: absolute;
+            left: -100%;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: var(--transition);
+        }
+        
+        .cta-button:hover .button-inner::before {
+            left: 100%;
+            transition: 0.5s;
+        }
+        
+        .button-text {
+            font-weight: 600;
+            font-size: 16px;
+            position: relative;
+            z-index: 1;
+            background: linear-gradient(to right, var(--light), var(--light));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            transition: var(--transition);
+        }
+        
+        .cta-button:hover .button-inner {
+            transform: scale(0.98);
+        }
+        
+        /* Decorative elements */
+        .decorative-circle {
+            position: absolute;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            opacity: 0.1;
+            z-index: -1;
+        }
+        
+        .circle-1 {
+            width: 300px;
+            height: 300px;
+            top: -150px;
+            left: -150px;
+            filter: blur(40px);
+        }
+        
+        .circle-2 {
+            width: 400px;
+            height: 400px;
+            bottom: -200px;
+            right: -200px;
+            filter: blur(60px);
+        }
+        
+        /* Custom cursor effect */
+        .cursor-effect {
+            position: fixed;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 2px solid var(--primary);
+            pointer-events: none;
+            transform: translate(-50%, -50%);
+            z-index: 9999;
+            transition: transform 0.1s, width 0.3s, height 0.3s;
+            opacity: 0.6;
+            mix-blend-mode: difference;
+        }
+        
+        /* Responsive styles */
+        @media (max-width: 1200px) {
+            .card-right {
+                width: 35%;
+            }
+            
+            .profile-content h1 {
+                font-size: 38px;
+            }
+        }
+        
+        @media (max-width: 992px) {
+            .card-inner {
+                flex-direction: column-reverse;
+            }
+            
+            .card-right {
+                width: 100%;
+                height: 300px;
+            }
+            
+            .card-left {
+                padding: 40px;
+            }
+            
+            .profile-content h1 {
+                font-size: 34px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 80px;
+            }
+            
+            .sidebar:hover {
+                width: 240px;
+            }
+            
+            .main-content {
+                margin-left: 80px;
+                padding: 30px;
+            }
+            
+            .logo-circle {
+                width: 50px;
+                height: 50px;
+                font-size: 20px;
+            }
+            
+            .card-left {
+                padding: 30px;
+            }
+            
+            .profile-content h1 {
+                font-size: 30px;
+            }
+            
+            .typing-wrapper {
+                height: 40px;
+            }
+            
+            .typing-effect {
+                font-size: 18px;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .sidebar {
+                width: 70px;
+            }
+            
+            .sidebar:hover {
+                width: 200px;
+            }
+            
+            .main-content {
+                margin-left: 70px;
+                padding: 20px;
+            }
+            
+            .logo-circle {
+                width: 45px;
+                height: 45px;
+                font-size: 18px;
+            }
+            
+            .card-right {
+                height: 250px;
+            }
+            
+            .card-left {
+                padding: 25px;
+            }
+            
+            .profile-content h1 {
+                font-size: 28px;
+            }
+            
+            .social-icons {
+                gap: 10px;
+            }
+            
+            .social-icon {
+                width: 40px;
+                height: 40px;
+            }
+            
+            .cta-button {
+                width: 180px;
+                height: 50px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Particle background -->
+    <div class="particles">
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+    </div>
+    
+    <!-- Animated gradient background -->
+    <div class="gradient-bg"></div>
+    
+    <!-- Noise texture overlay -->
+    <div class="noise"></div>
+    
+    <!-- Custom cursor effect -->
+    <div class="cursor-effect"></div>
+    
+    <div class="container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="logo">
+                <div class="logo-circle">AS</div>
+                <div class="logo-text"></div>
+            </div>
+            
+            <nav>
+                <ul>
+                    <li class="active">
+                        <a href="{% url 'index' %}">
+                            <span class="icon">🏠</span>
+                            <span class="text">Home</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{% url 'about' %}">
+                            <span class="icon">👤</span>
+                            <span class="text">About</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{% url 'services' %}">
+                            <span class="icon">📋</span>
+                            <span class="text">Services</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{% url 'portfolio' %}">
+                            <span class="icon">📁</span>
+                            <span class="text">Projects</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{% url 'contact' %}">
+                            <span class="icon">💬</span>
+                            <span class="text">Contact</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+        
+        <!-- Main content -->
+        <main class="main-content">
+            <!-- Decorative elements -->
+            <div class="decorative-circle circle-1"></div>
+            <div class="decorative-circle circle-2"></div>
+            
+            <!-- Profile card -->
+            <div class="profile-card">
+                <div class="card-inner">
+                    <div class="card-left">
+                        <div class="profile-content">
+                            <h1>
+                                Hello, I'm <span class="gradient-text">Adarsh S</span>
+                            </h1>
+                            
+                            <div class="typing-wrapper">
+                                <div class="typing-effect">
+                                    <span>I'm a </span>
+                                    <span class="typing-text">Software Developer</span>
+                                </div>
+                            </div>
+                            
+                            <p>
+                                Junior Software Developer | 2nd-year CSE (Data Science) student with expertise in Python, Node.js, Angular, and Javascript. Passionate about creating innovative web solutions and exploring the world of artificial intelligence.
+                            </p>
+                            
+                            <div class="social-icons">
+                                <div class="social-icon">
+                                    <span>🔗</span>
+                                </div>
+                                <div class="social-icon">
+                                    <span>📱</span>
+                                </div>
+                                <div class="social-icon">
+                                    <span>💻</span>
+                                </div>
+                                <div class="social-icon">
+                                    <span>✉️</span>
+                                </div>
+                            </div>
+                            
+                            <button class="cta-button" onclick="window.location.href='{% url 'about' %}';">
+                                <div class="button-wrapper">
+                                    <div class="button-inner">
+                                        <span class="button-text">Explore My Work</span>
+                                    </div>
+                                </div>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="card-right">
+                        <div class="profile-image-container">
+                            <img class="profile-image" src="{% static 'images/image7.jpg' %}" alt="Adarsh S">
+                            <div class="image-overlay"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    
+    <script>
+        // Custom cursor effect
+        document.addEventListener('DOMContentLoaded', function() {
+            const cursor = document.querySelector('.cursor-effect');
+            
+            document.addEventListener('mousemove', function(e) {
+                cursor.style.left = e.clientX + 'px';
+                cursor.style.top = e.clientY + 'px';
+            });
+            
+            document.addEventListener('mousedown', function() {
+                cursor.style.transform = 'translate(-50%, -50%) scale(0.8)';
+            });
+            
+            document.addEventListener('mouseup', function() {
+                cursor.style.transform = 'translate(-50%, -50%) scale(1)';
+            });
+            
+            document.querySelectorAll('a, button').forEach(item => {
+                item.addEventListener('mouseenter', function() {
+                    cursor.style.width = '60px';
+                    cursor.style.height = '60px';
+                    cursor.style.border = '2px solid var(--secondary)';
+                });
